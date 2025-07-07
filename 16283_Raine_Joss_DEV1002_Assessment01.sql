@@ -44,22 +44,16 @@ CREATE TABLE spells(
 
 CREATE TABLE classes(
     class_id SERIAL PRIMARY KEY,
+    stats_id INT NOT NULL REFERENCES base_stats(stats_id) ON DELETE CASCADE,
     skill_id INT NOT NULL REFERENCES skills(skill_id) ON DELETE CASCADE,
     spell_id INT NOT NULL REFERENCES spells(spell_id) ON DELETE SET NULL,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(255) NOT NULL,
-    hp_mod FLOAT NOT NULL,
-    mp_mod FLOAT NOT NULL,
-    atk_mod FLOAT NOT NULL,
-    mag_mod FLOAT,
-    def_mod FLOAT NOT NULL,
-    mov_mod INT
 );
 
 CREATE TABLE characters(
     character_id SERIAL PRIMARY KEY,
     class_id INT NOT NULL REFERENCES classes(class_id) ON DELETE SET NULL,
-    stats_id INT NOT NULL REFERENCES base_stats(stats_id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     age INT,
     race VARCHAR(32) NOT NULL,
@@ -87,4 +81,7 @@ INSERT INTO skills (name, description, max_uses) VALUES
 ('Undermine', 'Uses wizards intellect to confuse a guardian', 'Three'),
 ('Blitz', 'Attacks twice with a melee weapon', 'Once per battle');
 
--- INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
+INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
+(20, 20, 10, 0, 10, 4),
+(30, ),
+(10);
