@@ -47,6 +47,14 @@ CREATE TABLE classes(
     def_mod FLOAT NOT NULL
 );
 
-
+CREATE TABLE characters(
+    character_id SERIAL PRIMARY KEY,
+    class_id INT NOT NULL REFERENCES classes(class_id) ON DELETE SET NULL,
+    stats_id INT NOT NULL REFERENCES base_stats(stats_id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    age INT,
+    race VARCHAR(32) NOT NULL,
+    level INT CHECK (level <= 20) NOT NULL
+);
 
 
