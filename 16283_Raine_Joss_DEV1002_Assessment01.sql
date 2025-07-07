@@ -39,6 +39,7 @@ CREATE TABLE spells(
     effect VARCHAR(255) NOT NULL,
     mp_cost INT NOT NULL,
     range INT NOT NULL,
+    area_of_effect INT NOT NULL,
     damage_factor FLOAT,
     healing_factor FLOAT
 );
@@ -90,13 +91,13 @@ INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
 (15, 20, 5, 5, 8, 6),
 (12, 12, 7, 3, 6, 5);
 
-INSERT INTO spells (name, element, effect, mp_cost, range, damage_factor, healing_factor) VALUES
-('Sharpen', 'Buff', 'Magically sharpens sword, damage plus 2', 3, 0, NULL, NULL),
-('Roar', 'Debuff', 'May scare opponent, 5% chance to lower defence', 1, 10, NULL, NULL),
-('Blaze', 'Fire', 'Sets fire to your opponent', 6, 20, 1.30, NULL),
-('Darkness', 'Dark', 'Blinds and causes slight irritation to your opponent', 2, 5, 1.20, NULL),
-('First Aid', 'Light', 'Use your ranger first aid training to heal an ally', 5, 5, NULL, 1.00),
-('Healing', 'Holy', 'Slightly heals all party members regardless of distance', 8, 255, NULL, 1.00);
+INSERT INTO spells (name, element, effect, mp_cost, range, area_of_effect, damage_factor, healing_factor) VALUES
+('Sharpen', 'Buff', 'Magically sharpens sword, damage plus 2', 3, 0, 0, NULL, NULL),
+('Roar', 'Debuff', 'May scare opponent, 5% chance to lower defence', 1, 10, 10, NULL, NULL),
+('Blaze', 'Fire', 'Sets fire to your opponent', 6, 20, 5, 1.30, NULL),
+('Darkness', 'Dark', 'Blinds and causes slight irritation to your opponent', 2, 5, 15, 1.20, NULL),
+('First Aid', 'Light', 'Use your ranger first aid training to heal an ally', 5, 5, 5, NULL, 1.00),
+('Healing', 'Holy', 'Slightly heals all party members regardless of distance', 8, 255, 255, NULL, 1.00);
 
 INSERT INTO classes (skill_id, spell_id, stats_id, name, description) VALUES
 (1, 2, 2, 'Brute', 'A hulking menace with high attack and defense, moves very slowly and is not very bright'),
@@ -105,3 +106,11 @@ INSERT INTO classes (skill_id, spell_id, stats_id, name, description) VALUES
 (2, 5, 4, 'Ranger', 'Long ranged attacker, also capable of weak healing spells'),
 (6, 6, 3, 'Cleric', 'Holier than thou, but with their spiritual awareness they can heal your whole party'),
 (3, 4, 5, 'Rogue', 'Sneaky and devious, will steal anything for the right price');
+
+INSERT INTO characters (class_id, name, age, race, level) VALUES
+(1, 'Trogdor', 48, 'Orc', 1),
+(2, 'Kort', 24, 'Dwarf', 1),
+(3, 'Asmodeus', 67, 'Tortle', 1),
+(4, 'Lethora', 4785, 'Wood Elf', 1),
+(5, 'Sanctimony', NULL, 'Construct', 1),
+(6, 'Anathema', 31, 'Bat-Like', 1);

@@ -8,4 +8,4 @@
 
 ### Diagram 2
 
-![A detailed ERD of my Assessment Database with cardinality and tables](<assets/images/ERD Detailed w Tables.jpg>)
+![A detailed ERD of my Assessment Database with cardinality and tables](<assets/images/ERD Detailed with Tables.jpg>)
