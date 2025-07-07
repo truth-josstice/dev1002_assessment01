@@ -79,3 +79,9 @@ INSERT INTO weapons (name, type, power, range, description) VALUES
 ("Dagger", "Thrown", 2, 20, "A thrown dagger, very weak but maybe you could hit a vital point"),
 ("Staff", "Magical", 1, 5, "Incredibly weak, wizards use bonk attack...it's not very effective");
 
+INSERT INTO skills (name, description, max_uses) VALUES
+("Oomph", "Orcish strength, boosts your defence for three rounds at the start of battle", "N/A"),
+("Prayer", "Before heading into a dungeon, pray to ascertain the difficulty of enemies", "Unlimited"),
+("Sneak", "Sneak past an enemy during battle, allowing the party to escape", "Five"),
+("Undermine", "Uses wizards intellect to confuse a guardian", "Three"),
+("Blitz", "Attacks twice with a melee weapon", "Once per battle");
