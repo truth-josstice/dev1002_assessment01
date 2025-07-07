@@ -7,6 +7,13 @@ CREATE TABLE weapons(
     description VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE skills(
+    skill_id SERIAL PRIMARY KEY,
+    name VARCHAR(32) NOT NULL,
+    description VARCHAR(100) NOT NULL,
+    max_uses VARCHAR(16)
+);
+
 
 
 
