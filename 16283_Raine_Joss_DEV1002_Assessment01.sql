@@ -23,7 +23,16 @@ CREATE TABLE base_stats(
     mov INT CHECK (mov <= 10) NOT NULL
 );
 
-
+CREATE TABLE spells(
+    spell_id SERIAL PRIMARY KEY,
+    name VARCHAR(32) NOT NULL,
+    element VARCHAR(16) NOT NULL,
+    effect VARCHAR(100) NOT NULL,
+    mp_cost INT NOT NULL,
+    range INT NOT NULL,
+    damage_factor FLOAT,
+    healing_factor FLOAT
+);
 
 
 
