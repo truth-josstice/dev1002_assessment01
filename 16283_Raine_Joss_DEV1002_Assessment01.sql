@@ -14,7 +14,14 @@ CREATE TABLE skills(
     max_uses VARCHAR(16)
 );
 
-
+CREATE TABLE base_stats(
+    stats_id SERIAL PRIMARY KEY,
+    hp INT NOT NULL,
+    mp INT NOT NULL,
+    atk INT NOT NULL,
+    mag INT NOT NULL,
+    mov INT CHECK (mov <= 10) NOT NULL
+);
 
 
 
