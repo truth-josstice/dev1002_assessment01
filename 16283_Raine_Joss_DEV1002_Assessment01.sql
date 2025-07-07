@@ -85,7 +85,7 @@ INSERT INTO skills (name, description, max_uses) VALUES
 ('Pray', 'Instantly destroys one undead enemy', 'Once per battle');
 
 INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
-(20, 10, 10, 0, 10, 4),
+(20, 10, 99, 0, 10, 4),
 (30, 3, 12, 0, 12, 3),
 (10, 30, 1, 10, 7, 3),
 (15, 20, 5, 5, 8, 6),
@@ -141,10 +141,43 @@ FROM
     JOIN spells sp ON cl.spell_id = sp.spell_id
     JOIN skills sk ON cl.skill_id = sk.skill_id
     JOIN base_stats b ON cl.stats_id = b.stats_id
-WHERE c.character_id =1
+WHERE 
+    c.character_id =1
     AND e.character_id = c.character_id;
 
+SELECT 
+    ROUND(AVG(c.age), 2) AS "Average Character Age",
+    ROUND(AVG(b.atk + w.power), 2) AS "Average Attack Damage"
+FROM 
+    characters c
+    JOIN classes cl ON cl.class_id = c.class_id
+    JOIN base_stats b ON b.stats_id = cl.stats_id,
+    equipped_weapons e
+    JOIN weapons w ON w.weapon_id = e.weapon_id
+WHERE 
+    c.age IS NOT NULL
+    AND e.character_id = c.character_id;
+
+SELECT
+    c.name AS "Character Name",
+    sp.name AS "Spell Name",
+    sp.mp_cost AS "MP Cost",
+    ROUND(b.mp / sp.mp_cost) AS "Total Uses",
+    b.mag AS "Magic Attack",
+    ROUND(sp.damage_factor + b.mag) AS "Spell Damage",
+    ROUND((sp.damage_factor + b.mag) *(b.mp / sp.mp_cost)) AS "Total Damage Output"
+FROM
+    characters c
+    JOIN classes cl ON cl.class_id = c.class_id
+    JOIN spells sp ON sp.spell_id = cl.spell_id
+    JOIN base_stats b ON b.stats_id = cl.stats_id
+WHERE
+    sp.damage_factor IS NOT NULL
+ORDER BY 
+    ROUND((sp.damage_factor + b.mag) *(b.mp / sp.mp_cost)) DESC;
 
 
--- SELECT * FROM weapons;
--- SELECT * FROM weapons;
+
+
+
+
