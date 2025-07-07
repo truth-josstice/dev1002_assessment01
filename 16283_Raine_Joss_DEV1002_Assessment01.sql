@@ -85,7 +85,7 @@ INSERT INTO skills (name, description, max_uses) VALUES
 ('Pray', 'Instantly destroys one undead enemy', 'Once per battle');
 
 INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
-(20, 10, 99, 0, 10, 4),
+(20, 10, 10, 0, 10, 4),
 (30, 3, 12, 0, 12, 3),
 (10, 30, 1, 10, 7, 3),
 (15, 20, 5, 5, 8, 6),
@@ -97,12 +97,14 @@ INSERT INTO spells (name, element, effect, mp_cost, range, area_of_effect, damag
 ('Blaze', 'Fire', 'Sets fire to your opponent', 6, 20, 5, 1.30, NULL),
 ('Darkness', 'Dark', 'Blinds and causes slight irritation to your opponent', 2, 5, 15, 1.20, NULL),
 ('First Aid', 'Light', 'Use your ranger first aid training to heal an ally', 5, 5, 5, NULL, 1.00),
-('Healing', 'Holy', 'Slightly heals all party members regardless of distance', 8, 255, 255, NULL, 1.00);
+('Healing', 'Holy', 'Slightly heals all party members regardless of distance', 8, 255, 255, NULL, 1.00),
+('Ice Blast', 'Ice', 'Chills the air and sends icicles flying at multiple opponents', 10, 15, 15, 1.15, NULL),
+('Blaze 2', 'Fire', 'A burning chasm erupts beneath your opponent', 12, 20, 5, 2.20, NULL);
 
 INSERT INTO classes (skill_id, spell_id, stats_id, name, description) VALUES
 (1, 2, 2, 'Brute', 'A hulking menace with high attack and defense, moves very slowly and is not very bright'),
 (5, 1, 1, 'Fighter', 'Basic unit who hits things with sharp objects, all rounder with basically no magical ability'),
-(4, 3, 3, 'Wizard', 'You guessed it! Casts strong spells but is physically very weak'),
+(4, 3, 3, 'Flame Wizard', 'You guessed it! Casts strong spells but is physically very weak'),
 (2, 5, 4, 'Ranger', 'Long ranged attacker, also capable of weak healing spells'),
 (6, 6, 3, 'Cleric', 'Holier than thou, but with their spiritual awareness they can heal your whole party'),
 (3, 4, 5, 'Rogue', 'Sneaky and devious, will steal anything for the right price');
@@ -112,7 +114,7 @@ INSERT INTO characters (class_id, name, age, race, level) VALUES
 (2, 'Kort', 24, 'Dwarf', 1),
 (3, 'Asmodeus', 67, 'Tortle', 1),
 (4, 'Lethora', 4785, 'Wood Elf', 1),
-(5, 'Sanctimony', NULL, 'Construct', 1),
+(5, 'Sanctimony', NULL, 'Ancient Construct', 1),
 (6, 'Anathema', 31, 'Bat-Like', 1);
 
 INSERT INTO equipped_weapons (weapon_id, character_id) VALUES
@@ -122,6 +124,33 @@ INSERT INTO equipped_weapons (weapon_id, character_id) VALUES
 (3, 4),
 (2, 5),
 (5, 6);
+
+INSERT INTO characters (class_id, name, age, race, level) VALUES
+(2, 'James', 18, 'Human', 1),
+(1, 'Bobula', 15000000, 'Weird Blob Thingy', 20);
+
+INSERT INTO spells (name, element, effect, mp_cost, range, area_of_effect, damage_factor, healing_factor) VALUES 
+('Drain', 'Dark', 'Sucks the life blood from your foe, healing for half damage dealt', 6, 10, 5, 1.20, 0.60),
+('Blazing Inferno', 'Fire', 'The highest level fire spell, brings a falling star upon your foe', 50, 50, 5, 8.00, NULL);
+
+
+SELECT * FROM characters WHERE name = 'James' OR name = 'Bobula';
+
+UPDATE characters SET age = 374, race = 'High Elf', name = 'Gelthandril', class_id = 4 WHERE name = 'James';
+
+SELECT 
+    cl.name AS "Class Name",
+    COUNT(c.class_id) AS "Number of Characters in Class"
+FROM 
+    characters c
+    JOIN classes cl ON c.class_id = cl.class_id
+GROUP BY
+    cl.name
+HAVING COUNT(c.class_id) >=2;
+
+DELETE FROM characters WHERE character_id = 8 OR name LIKE '%andril';
+
+SELECT * FROM characters;
 
 SELECT * FROM weapons WHERE type = 'Melee' ORDER BY power DESC;
 
@@ -146,8 +175,8 @@ WHERE
     AND e.character_id = c.character_id;
 
 SELECT 
-    ROUND(AVG(c.age), 2) AS "Average Character Age",
-    ROUND(AVG(b.atk + w.power), 2) AS "Average Attack Damage"
+    c.name AS "Character Name",
+    ROUND(AVG(b.atk + w.power), 2) AS "Average Physical Attack Damage"
 FROM 
     characters c
     JOIN classes cl ON cl.class_id = c.class_id
@@ -155,8 +184,11 @@ FROM
     equipped_weapons e
     JOIN weapons w ON w.weapon_id = e.weapon_id
 WHERE 
-    c.age IS NOT NULL
-    AND e.character_id = c.character_id;
+    e.character_id = c.character_id
+GROUP BY
+    c.name
+ORDER BY
+    ROUND(AVG(b.atk + w.power));
 
 SELECT
     c.name AS "Character Name",
@@ -176,8 +208,19 @@ WHERE
 ORDER BY 
     ROUND((sp.damage_factor + b.mag) *(b.mp / sp.mp_cost)) DESC;
 
+SELECT COUNT(weapon_id) AS "Number of Weapons", type AS "With Type:" 
+FROM weapons
+GROUP BY type
+ORDER BY COUNT(weapon_id) DESC;
 
+SELECT name AS "Possibly Immortal Characters", age AS "Characters Current Age (If Known)", race AS "Character Race"
+FROM characters
+WHERE age >=150 OR age IS NULL
+ORDER BY age DESC;
 
-
-
-
+SELECT 
+    element AS "Elements with Multiple Spells",
+    COUNT(element) AS "Number of Spells in Element"
+FROM spells
+GROUP BY element
+HAVING COUNT(element) >1;
