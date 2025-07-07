@@ -22,15 +22,6 @@ CREATE TABLE skills(
     max_uses VARCHAR(16)
 );
 
-CREATE TABLE base_stats(
-    stats_id SERIAL PRIMARY KEY,
-    hp INT NOT NULL,
-    mp INT NOT NULL,
-    atk INT NOT NULL,
-    mag INT NOT NULL,
-    mov INT CHECK (mov <= 10) NOT NULL
-);
-
 CREATE TABLE spells(
     spell_id SERIAL PRIMARY KEY,
     name VARCHAR(32) NOT NULL,
@@ -52,7 +43,8 @@ CREATE TABLE classes(
     mp_mod FLOAT NOT NULL,
     atk_mod FLOAT NOT NULL,
     mag_mod FLOAT,
-    def_mod FLOAT NOT NULL
+    def_mod FLOAT NOT NULL,
+    mov_mod INT
 );
 
 CREATE TABLE characters(
@@ -63,6 +55,16 @@ CREATE TABLE characters(
     age INT,
     race VARCHAR(32) NOT NULL,
     level INT CHECK (level <= 20) NOT NULL
+);
+
+CREATE TABLE base_stats(
+    stats_id SERIAL PRIMARY KEY,
+    character_id INT NOT NULL REFERENCES characters(character_id) ON DELETE CASCADE,
+    hp INT NOT NULL,
+    mp INT NOT NULL,
+    atk INT NOT NULL,
+    mag INT NOT NULL,
+    mov INT CHECK (mov <= 10) NOT NULL
 );
 
 CREATE TABLE equipped_weapons(
@@ -85,3 +87,5 @@ INSERT INTO skills (name, description, max_uses) VALUES
 ("Sneak", "Sneak past an enemy during battle, allowing the party to escape", "Five"),
 ("Undermine", "Uses wizards intellect to confuse a guardian", "Three"),
 ("Blitz", "Attacks twice with a melee weapon", "Once per battle");
+
+INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
