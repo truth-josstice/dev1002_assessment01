@@ -57,4 +57,9 @@ CREATE TABLE characters(
     level INT CHECK (level <= 20) NOT NULL
 );
 
+CREATE TABLE equipped_weapons(
+    equipped_id SERIAL PRIMARY KEY,
+    weapon_id INT NOT NULL REFERENCES weapons(weapon_id) ON DELETE CASCADE,
+    character_id INT NOT NULL REFERENCES characters(character_id) ON DELETE CASCADE
+);
 
