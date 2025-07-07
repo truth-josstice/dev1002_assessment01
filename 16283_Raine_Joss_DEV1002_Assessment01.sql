@@ -122,3 +122,29 @@ INSERT INTO equipped_weapons (weapon_id, character_id) VALUES
 (3, 4),
 (2, 5),
 (5, 6);
+
+SELECT * FROM weapons WHERE type = 'Melee' ORDER BY power DESC;
+
+SELECT
+    c.name AS "Character Name",
+    c.level AS "Character Level",
+    cl.name AS "Character Class",
+    sp.name AS "Character Spell",
+    sk.name AS "Character Skill",
+    b.hp AS "Current Health",
+    w.name AS "Equipped Weapon"
+FROM 
+    equipped_weapons e
+    JOIN weapons w ON w.weapon_id = e.weapon_id,
+    characters c
+    JOIN classes cl ON c.class_id = cl.class_id
+    JOIN spells sp ON cl.spell_id = sp.spell_id
+    JOIN skills sk ON cl.skill_id = sk.skill_id
+    JOIN base_stats b ON cl.stats_id = b.stats_id
+WHERE c.character_id =1
+    AND e.character_id = c.character_id;
+
+
+
+-- SELECT * FROM weapons;
+-- SELECT * FROM weapons;
