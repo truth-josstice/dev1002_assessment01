@@ -99,9 +99,9 @@ INSERT INTO spells (name, element, effect, mp_cost, range, damage_factor, healin
 ('Healing', 'Holy', 'Slightly heals all party members regardless of distance', 8, 255, NULL, 1.00);
 
 INSERT INTO classes (skill_id, spell_id, stats_id, name, description) VALUES
-('Brute', 'A hulking menace with high attack and defense, moves very slowly and is not very bright'),
-('Fighter', 'Basic unit who hits things with sharp objects, all rounder with basically no magical ability'),
-('Wizard', 'You guessed it! Casts strong spells but is physically very weak'),
-('Ranger', 'Long ranged attacker, also capable of weak healing spells'),
-('Cleric', 'Holier than thou, but with their spiritual awareness they can heal your whole party'),
-('Rogue', 'Sneaky and devious, will steal anything for the right price');
+(1, 2, 2, 'Brute', 'A hulking menace with high attack and defense, moves very slowly and is not very bright'),
+(5, 1, 1, 'Fighter', 'Basic unit who hits things with sharp objects, all rounder with basically no magical ability'),
+(4, 3, 3, 'Wizard', 'You guessed it! Casts strong spells but is physically very weak'),
+(2, 5, 4, 'Ranger', 'Long ranged attacker, also capable of weak healing spells'),
+(6, 6, 3, 'Cleric', 'Holier than thou, but with their spiritual awareness they can heal your whole party'),
+(3, 4, 5, 'Rogue', 'Sneaky and devious, will steal anything for the right price');
