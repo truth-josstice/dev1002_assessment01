@@ -87,15 +87,15 @@ INSERT INTO skills (name, description, max_uses) VALUES
 INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
 (20, 10, 10, 0, 10, 4),
 (30, 3, 12, 0, 12, 3),
-(10, 30, 1, 10, 7, 3),
+(10, 36, 1, 10, 7, 3),
 (15, 20, 5, 5, 8, 6),
 (12, 12, 7, 3, 6, 5);
 
 INSERT INTO spells (name, element, effect, mp_cost, range, area_of_effect, damage_factor, healing_factor) VALUES
 ('Sharpen', 'Buff', 'Magically sharpens sword, damage plus 2', 3, 0, 0, NULL, NULL),
 ('Roar', 'Debuff', 'May scare opponent, 5% chance to lower defence', 1, 10, 10, NULL, NULL),
-('Blaze', 'Fire', 'Sets fire to your opponent', 6, 20, 5, 1.30, NULL),
-('Darkness', 'Dark', 'Blinds and causes slight irritation to your opponent', 2, 5, 15, 1.20, NULL),
+('Blaze', 'Fire', 'Sets fire to your opponent', 6, 20, 5, 1.20, NULL),
+('Darkness', 'Dark', 'Blinds and causes slight irritation to your opponent', 2, 5, 15, 1.05, NULL),
 ('First Aid', 'Light', 'Use your ranger first aid training to heal an ally', 5, 5, 5, NULL, 1.00),
 ('Healing', 'Holy', 'Slightly heals all party members regardless of distance', 8, 255, 255, NULL, 1.00),
 ('Ice Blast', 'Ice', 'Chills the air and sends icicles flying at multiple opponents', 10, 15, 15, 1.15, NULL),
@@ -125,13 +125,11 @@ INSERT INTO equipped_weapons (weapon_id, character_id) VALUES
 (2, 5),
 (5, 6);
 
+SELECT name FROM characters ORDER BY name;
+
 INSERT INTO characters (class_id, name, age, race, level) VALUES
 (2, 'James', 18, 'Human', 1),
 (1, 'Bobula', 15000000, 'Weird Blob Thingy', 20);
-
-INSERT INTO spells (name, element, effect, mp_cost, range, area_of_effect, damage_factor, healing_factor) VALUES 
-('Drain', 'Dark', 'Sucks the life blood from your foe, healing for half damage dealt', 6, 10, 5, 1.20, 0.60),
-('Blazing Inferno', 'Fire', 'The highest level fire spell, brings a falling star upon your foe', 50, 50, 5, 8.00, NULL);
 
 
 SELECT * FROM characters WHERE name = 'James' OR name = 'Bobula';
@@ -160,7 +158,8 @@ SELECT
     cl.name AS "Character Class",
     sp.name AS "Character Spell",
     sk.name AS "Character Skill",
-    b.hp AS "Current Health",
+    b.hp AS "Max Health",
+    b.mp AS "Max Magic Power",
     w.name AS "Equipped Weapon"
 FROM 
     equipped_weapons e
@@ -171,12 +170,11 @@ FROM
     JOIN skills sk ON cl.skill_id = sk.skill_id
     JOIN base_stats b ON cl.stats_id = b.stats_id
 WHERE 
-    c.character_id =1
-    AND e.character_id = c.character_id;
+    e.character_id = c.character_id;
 
 SELECT 
     c.name AS "Character Name",
-    ROUND(AVG(b.atk + w.power), 2) AS "Average Physical Attack Damage"
+    ROUND(b.atk + w.power) AS "Physical Attack Damage"
 FROM 
     characters c
     JOIN classes cl ON cl.class_id = c.class_id
@@ -185,19 +183,17 @@ FROM
     JOIN weapons w ON w.weapon_id = e.weapon_id
 WHERE 
     e.character_id = c.character_id
-GROUP BY
-    c.name
 ORDER BY
-    ROUND(AVG(b.atk + w.power));
+    ROUND(b.atk + w.power) DESC;
 
 SELECT
     c.name AS "Character Name",
     sp.name AS "Spell Name",
     sp.mp_cost AS "MP Cost",
+    b.mp AS "Character MP",
     ROUND(b.mp / sp.mp_cost) AS "Total Uses",
-    b.mag AS "Magic Attack",
-    ROUND(sp.damage_factor + b.mag) AS "Spell Damage",
-    ROUND((sp.damage_factor + b.mag) *(b.mp / sp.mp_cost)) AS "Total Damage Output"
+    ROUND(sp.damage_factor * b.mag) AS "Spell Damage",
+    ROUND((sp.damage_factor * b.mag)) * ROUND(b.mp / sp.mp_cost) AS "Total Damage Output"
 FROM
     characters c
     JOIN classes cl ON cl.class_id = c.class_id
@@ -206,7 +202,7 @@ FROM
 WHERE
     sp.damage_factor IS NOT NULL
 ORDER BY 
-    ROUND((sp.damage_factor + b.mag) *(b.mp / sp.mp_cost)) DESC;
+    ROUND((sp.damage_factor * b.mag) *(b.mp / sp.mp_cost)) DESC;
 
 SELECT COUNT(weapon_id) AS "Number of Weapons", type AS "With Type:" 
 FROM weapons
@@ -217,6 +213,12 @@ SELECT name AS "Possibly Immortal Characters", age AS "Characters Current Age (I
 FROM characters
 WHERE age >=150 OR age IS NULL
 ORDER BY age DESC;
+
+INSERT INTO spells (name, element, effect, mp_cost, range, area_of_effect, damage_factor, healing_factor) VALUES 
+('Drain', 'Dark', 'Sucks the life blood from your foe, healing for half damage dealt', 6, 10, 5, 1.20, 0.60),
+('Blazing Inferno', 'Fire', 'The highest level fire spell, brings a falling star upon your foe', 50, 50, 5, 8.00, NULL);
+
+SELECT name, effect, mp_cost FROM spells WHERE element LIKE 'F%' AND damage_factor > 2;
 
 SELECT 
     element AS "Elements with Multiple Spells",
