@@ -114,3 +114,11 @@ INSERT INTO characters (class_id, name, age, race, level) VALUES
 (4, 'Lethora', 4785, 'Wood Elf', 1),
 (5, 'Sanctimony', NULL, 'Construct', 1),
 (6, 'Anathema', 31, 'Bat-Like', 1);
+
+INSERT INTO equipped_weapons (weapon_id, character_id) VALUES
+(1, 2),
+(2, 1),
+(6, 3),
+(3, 4),
+(2, 5),
+(5, 6);
