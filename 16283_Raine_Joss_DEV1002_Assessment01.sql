@@ -77,21 +77,31 @@ INSERT INTO weapons (name, type, power, range, description) VALUES
 
 INSERT INTO skills (name, description, max_uses) VALUES
 ('Oomph', 'Brute strength, boosts your defence for three rounds at the start of battle', 'N/A'),
-('Lay of the Land', 'Before heading into a dungeon, scout to ascertain the difficulty of enemies', 'Unlimited'),
+('Lay of the Land', 'Before heading into a dungeon, scout to ascertain the difficulty of enemies', 'Once per rest'),
 ('Sneak', 'Sneak past an enemy during battle, allowing the party to escape', 'Five'),
 ('Undermine', 'Uses wizards intellect to confuse a guardian', 'Three'),
-('Blitz', 'Attacks twice with a melee weapon', 'Once per battle');
+('Blitz', 'Attacks twice with a melee weapon', 'Once per battle'),
+('Pray', 'Instantly destroys one undead enemy', 'Once per battle');
 
 INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
 (20, 10, 10, 0, 10, 4),
 (30, 3, 12, 0, 12, 3),
-(10, 30, 1, 20, 7, 3),
+(10, 30, 1, 10, 7, 3),
 (15, 20, 5, 5, 8, 6),
 (12, 12, 7, 3, 6, 5);
 
 INSERT INTO spells (name, element, effect, mp_cost, range, damage_factor, healing_factor) VALUES
 ('Sharpen', 'Buff', 'Magically sharpens sword, damage plus 2', 3, 0, NULL, NULL),
 ('Roar', 'Debuff', 'May scare opponent, 5% chance to lower defence', 1, 10, NULL, NULL),
-('Blaze', 'Fire', 'Sets fire to your opponent', 6, 20, 1.15, NULL),
-('Darkness', 'Dark', 'Blinds and causes slight irritation to your opponent', 2, 5, 1.01, NULL),
-('First Aid', 'Light', 'Use your ranger first aid training to heal an ally', 5, 5, NULL, 1.2);
+('Blaze', 'Fire', 'Sets fire to your opponent', 6, 20, 1.30, NULL),
+('Darkness', 'Dark', 'Blinds and causes slight irritation to your opponent', 2, 5, 1.20, NULL),
+('First Aid', 'Light', 'Use your ranger first aid training to heal an ally', 5, 5, NULL, 1.00),
+('Healing', 'Holy', 'Slightly heals all party members regardless of distance', 8, 255, NULL, 1.00);
+
+INSERT INTO classes (skill_id, spell_id, stats_id, name, description) VALUES
+('Brute', 'A hulking menace with high attack and defense, moves very slowly and is not very bright'),
+('Fighter', 'Basic unit who hits things with sharp objects, all rounder with basically no magical ability'),
+('Wizard', 'You guessed it! Casts strong spells but is physically very weak'),
+('Ranger', 'Long ranged attacker, also capable of weak healing spells'),
+('Cleric', 'Holier than thou, but with their spiritual awareness they can heal your whole party'),
+('Rogue', 'Sneaky and devious, will steal anything for the right price');
