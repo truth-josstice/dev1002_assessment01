@@ -71,3 +71,11 @@ CREATE TABLE equipped_weapons(
     character_id INT NOT NULL REFERENCES characters(character_id) ON DELETE CASCADE
 );
 
+INSERT INTO weapons (name, type, power, range, description) VALUES
+("Shortsword", "Melee", 5, 5, "A sturdy but blunt beginner's shortsword"),
+("Spear", "Melee", 4, 10, "A wooden rod with a sharp metal point, can reach further than a lance"),
+("Bow", "Ranged", 3, 40, "A shortbow with a loose string, weak but beginner friendly"),
+("Axe", "Melee", 6, 5, "A heavy blunt axe, more likely to crush than cut"),
+("Dagger", "Thrown", 2, 20, "A thrown dagger, very weak but maybe you could hit a vital point"),
+("Staff", "Magical", 1, 5, "Incredibly weak, wizards use bonk attack...it's not very effective");
+
