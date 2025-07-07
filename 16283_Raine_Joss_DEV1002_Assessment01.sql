@@ -28,6 +28,7 @@ CREATE TABLE base_stats(
     mp INT NOT NULL,
     atk INT NOT NULL,
     mag INT NOT NULL,
+    def INT NOT NULL,
     mov INT CHECK (mov <= 10) NOT NULL
 );
 
@@ -48,7 +49,7 @@ CREATE TABLE classes(
     skill_id INT NOT NULL REFERENCES skills(skill_id) ON DELETE CASCADE,
     spell_id INT NOT NULL REFERENCES spells(spell_id) ON DELETE SET NULL,
     name VARCHAR(50) NOT NULL,
-    description VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE characters(
@@ -82,6 +83,8 @@ INSERT INTO skills (name, description, max_uses) VALUES
 ('Blitz', 'Attacks twice with a melee weapon', 'Once per battle');
 
 INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
-(20, 20, 10, 0, 10, 4),
-(30, ),
-(10);
+(20, 10, 10, 0, 10, 4),
+(30, 3, 12, 0, 12, 3),
+(10, 30, 1, 20, 7, 3),
+(15, 20, 5, 5, 8, 6),
+(12, 12, 7, 3, 6, 5);
