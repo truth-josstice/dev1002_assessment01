@@ -77,7 +77,7 @@ INSERT INTO weapons (name, type, power, range, description) VALUES
 
 INSERT INTO skills (name, description, max_uses) VALUES
 ('Oomph', 'Brute strength, boosts your defence for three rounds at the start of battle', 'N/A'),
-('Prayer', 'Before heading into a dungeon, pray to ascertain the difficulty of enemies', 'Unlimited'),
+('Lay of the Land', 'Before heading into a dungeon, scout to ascertain the difficulty of enemies', 'Unlimited'),
 ('Sneak', 'Sneak past an enemy during battle, allowing the party to escape', 'Five'),
 ('Undermine', 'Uses wizards intellect to confuse a guardian', 'Three'),
 ('Blitz', 'Attacks twice with a melee weapon', 'Once per battle');
@@ -88,3 +88,10 @@ INSERT INTO base_stats (hp, mp, atk, mag, def, mov) VALUES
 (10, 30, 1, 20, 7, 3),
 (15, 20, 5, 5, 8, 6),
 (12, 12, 7, 3, 6, 5);
+
+INSERT INTO spells (name, element, effect, mp_cost, range, damage_factor, healing_factor) VALUES
+('Sharpen', 'Buff', 'Magically sharpens sword, damage plus 2', 3, 0, NULL, NULL),
+('Roar', 'Debuff', 'May scare opponent, 5% chance to lower defence', 1, 10, NULL, NULL),
+('Blaze', 'Fire', 'Sets fire to your opponent', 6, 20, 1.15, NULL),
+('Darkness', 'Dark', 'Blinds and causes slight irritation to your opponent', 2, 5, 1.01, NULL),
+('First Aid', 'Light', 'Use your ranger first aid training to heal an ally', 5, 5, NULL, 1.2);
