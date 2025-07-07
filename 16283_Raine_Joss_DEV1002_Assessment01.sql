@@ -1,3 +1,11 @@
+DROP TABLE IF EXISTS equipped_weapons;
+DROP TABLE IF EXISTS characters;
+DROP TABLE IF EXISTS classes;
+DROP TABLE IF EXISTS spells;
+DROP TABLE IF EXISTS base_stats;
+DROP TABLE IF EXISTS skills;
+DROP TABLE IF EXISTS weapons;
+
 CREATE TABLE weapons(
     weapon_id SERIAL PRIMARY KEY,
     name VARCHAR(32) NOT NULL,
