@@ -69,11 +69,11 @@ CREATE TABLE equipped_weapons(
 );
 
 INSERT INTO weapons (name, type, power, range, description) VALUES
-('Shortsword', 'Melee', 5, 5, 'A sturdy but blunt beginner shortsword'),
-('Spear', 'Melee', 4, 10, 'A wooden rod with a sharp metal point, can reach further than a lance'),
-('Bow', 'Ranged', 3, 40, 'A shortbow with a loose string, weak but beginner friendly'),
-('Axe', 'Melee', 6, 5, 'A heavy blunt axe, more likely to crush than cut'),
-('Dagger', 'Thrown', 2, 20, 'A thrown dagger, very weak but maybe you could hit a vital point'),
+('Shortsword', 'Melee', 8, 5, 'A sturdy but blunt beginner shortsword'),
+('Spear', 'Melee', 7, 10, 'A wooden rod with a sharp metal point, can reach further than a lance'),
+('Bow', 'Ranged', 5, 40, 'A shortbow with a loose string, weak but beginner friendly'),
+('Axe', 'Melee', 8, 5, 'A heavy blunt axe, more likely to crush than cut'),
+('Dagger', 'Thrown', 3, 20, 'A thrown dagger, very weak but maybe you could hit a vital point'),
 ('Staff', 'Melee', 1, 5, 'Incredibly weak, wizards use bonk attack...it is not very effective');
 
 INSERT INTO skills (name, description, max_uses) VALUES
@@ -131,6 +131,8 @@ INSERT INTO characters (class_id, name, age, race, level) VALUES
 (2, 'James', 18, 'Human', 1),
 (1, 'Bobula', 15000000, 'Weird Blob Thingy', 20);
 
+INSERT INTO weapons (name, type, power, range, description) VALUES
+('Hunting Knife', 'Melee', 4, 5, 'A secondary weapon common with rangers, used to skin hunted animals');
 
 SELECT * FROM characters WHERE name = 'James' OR name = 'Bobula';
 
