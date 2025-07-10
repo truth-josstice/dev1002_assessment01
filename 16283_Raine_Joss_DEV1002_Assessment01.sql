@@ -49,6 +49,7 @@ CREATE TABLE classes(
     stats_id INT NOT NULL REFERENCES base_stats(stats_id) ON DELETE CASCADE,
     skill_id INT NOT NULL REFERENCES skills(skill_id) ON DELETE CASCADE,
     spell_id INT NOT NULL REFERENCES spells(spell_id) ON DELETE SET NULL,
+    sub_weapon_id INT REFERENCES weapons(weapon_id) ON DELETE SET NULL,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(255) NOT NULL
 );
@@ -74,7 +75,8 @@ INSERT INTO weapons (name, type, power, range, description) VALUES
 ('Bow', 'Ranged', 5, 40, 'A shortbow with a loose string, weak but beginner friendly'),
 ('Axe', 'Melee', 8, 5, 'A heavy blunt axe, more likely to crush than cut'),
 ('Dagger', 'Thrown', 3, 20, 'A thrown dagger, very weak but maybe you could hit a vital point'),
-('Staff', 'Melee', 1, 5, 'Incredibly weak, wizards use bonk attack...it is not very effective');
+('Staff', 'Melee', 1, 5, 'Incredibly weak, wizards use bonk attack...it is not very effective'),
+('Hunting Knife', 'Melee', 4, 5, 'A secondary weapon common with rangers, used to skin hunted animals');
 
 INSERT INTO skills (name, description, max_uses) VALUES
 ('Oomph', 'Brute strength, boosts your defence for three rounds at the start of battle', 'N/A'),
@@ -101,13 +103,13 @@ INSERT INTO spells (name, element, effect, mp_cost, range, area_of_effect, damag
 ('Ice Blast', 'Ice', 'Chills the air and sends icicles flying at multiple opponents', 10, 15, 15, 1.15, NULL),
 ('Blaze 2', 'Fire', 'A burning chasm erupts beneath your opponent', 12, 20, 5, 2.20, NULL);
 
-INSERT INTO classes (skill_id, spell_id, stats_id, name, description) VALUES
-(1, 2, 2, 'Brute', 'A hulking menace with high attack and defense, moves very slowly and is not very bright'),
-(5, 1, 1, 'Fighter', 'Basic unit who hits things with sharp objects, all rounder with basically no magical ability'),
-(4, 3, 3, 'Flame Wizard', 'You guessed it! Casts strong spells but is physically very weak'),
-(2, 5, 4, 'Ranger', 'Long ranged attacker, also capable of weak healing spells'),
-(6, 6, 3, 'Cleric', 'Holier than thou, but with their spiritual awareness they can heal your whole party'),
-(3, 4, 5, 'Rogue', 'Sneaky and devious, will steal anything for the right price');
+INSERT INTO classes (skill_id, spell_id, stats_id, name, description, sub_weapon_id) VALUES
+(1, 2, 2, 'Brute', 'A hulking menace with high attack and defense, moves very slowly and is not very bright', NULL),
+(5, 1, 1, 'Fighter', 'Basic unit who hits things with sharp objects, all rounder with basically no magical ability', NULL),
+(4, 3, 3, 'Flame Wizard', 'You guessed it! Casts strong spells but is physically very weak', NULL),
+(2, 5, 4, 'Ranger', 'Long ranged attacker, also capable of weak healing spells', 7),
+(6, 6, 3, 'Cleric', 'Holier than thou, but with their spiritual awareness they can heal your whole party', NULL),
+(3, 4, 5, 'Rogue', 'Sneaky and devious, will steal anything for the right price', NULL);
 
 INSERT INTO characters (class_id, name, age, race, level) VALUES
 (1, 'Trogdor', 48, 'Orc', 1),
@@ -130,9 +132,6 @@ SELECT name FROM characters ORDER BY name;
 INSERT INTO characters (class_id, name, age, race, level) VALUES
 (2, 'James', 18, 'Human', 1),
 (1, 'Bobula', 15000000, 'Weird Blob Thingy', 20);
-
-INSERT INTO weapons (name, type, power, range, description) VALUES
-('Hunting Knife', 'Melee', 4, 5, 'A secondary weapon common with rangers, used to skin hunted animals');
 
 SELECT * FROM characters WHERE name = 'James' OR name = 'Bobula';
 
@@ -162,7 +161,8 @@ SELECT
     sk.name AS "Character Skill",
     b.hp AS "Max Health",
     b.mp AS "Max Magic Power",
-    w.name AS "Equipped Weapon"
+    w.name AS "Equipped Weapon",
+    (SELECT w.name FROM weapons w WHERE cl.sub_weapon_id = w.weapon_id) AS "Sub Weapon"
 FROM 
     equipped_weapons e
     JOIN weapons w ON w.weapon_id = e.weapon_id,
