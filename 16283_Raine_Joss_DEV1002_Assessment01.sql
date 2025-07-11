@@ -121,7 +121,7 @@ INSERT INTO characters (class_id, name, age, race, level) VALUES
 
 INSERT INTO equipped_weapons (weapon_id, character_id) VALUES
 (1, 2),
-(2, 1),
+(4, 1),
 (6, 3),
 (3, 4),
 (2, 5),
@@ -136,6 +136,8 @@ INSERT INTO characters (class_id, name, age, race, level) VALUES
 SELECT * FROM characters WHERE name = 'James' OR name = 'Bobula';
 
 UPDATE characters SET age = 374, race = 'High Elf', name = 'Gelthandril', class_id = 4 WHERE name = 'James';
+
+UPDATE characters SET race = 'Flying Cowboy Boot' WHERE name = 'Bobula';
 
 SELECT 
     cl.name AS "Class Name",
@@ -172,7 +174,9 @@ FROM
     JOIN skills sk ON cl.skill_id = sk.skill_id
     JOIN base_stats b ON cl.stats_id = b.stats_id
 WHERE 
-    e.character_id = c.character_id;
+    e.character_id = c.character_id
+ORDER BY 
+    c.name;
 
 SELECT 
     c.name AS "Character Name",
