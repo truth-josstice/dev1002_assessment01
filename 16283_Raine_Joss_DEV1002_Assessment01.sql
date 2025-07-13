@@ -191,6 +191,7 @@ ORDER BY
 -- Uses some basic math functions based on values across three different tables to calculate damage output, orders by highest physical attack damage
 SELECT 
     c.name AS "Character Name",
+    w.name AS "Equipped Weapon",
     ROUND(b.atk + w.power) AS "Physical Attack Damage"
 FROM 
     characters c
