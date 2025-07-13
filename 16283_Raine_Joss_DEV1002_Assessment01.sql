@@ -127,18 +127,24 @@ INSERT INTO equipped_weapons (weapon_id, character_id) VALUES
 (2, 5),
 (5, 6);
 
+-- Shows all character names
 SELECT name FROM characters ORDER BY name;
 
+-- Inserts characters into characters table
 INSERT INTO characters (class_id, name, age, race, level) VALUES
 (2, 'James', 18, 'Human', 1),
 (1, 'Bobula', 15000000, 'Weird Blob Thingy', 20);
 
+-- Shows all columns in the characters table for James and Bobula
 SELECT * FROM characters WHERE name = 'James' OR name = 'Bobula';
 
+-- Updates character with the name "James" with new age, race, name and class
 UPDATE characters SET age = 374, race = 'High Elf', name = 'Gelthandril', class_id = 4 WHERE name = 'James';
 
+-- Updates character with the name "Bobula" to new race
 UPDATE characters SET race = 'Flying Cowboy Boot' WHERE name = 'Bobula';
 
+-- Counts the number of characters assigned to each class, and returns only those with more than 1 character
 SELECT 
     cl.name AS "Class Name",
     COUNT(c.class_id) AS "Number of Characters in Class"
@@ -149,12 +155,16 @@ GROUP BY
     cl.name
 HAVING COUNT(c.class_id) >=2;
 
+-- Deletes characters from characters table using two different WHERE clauses
 DELETE FROM characters WHERE character_id = 8 OR name LIKE '%andril';
 
+-- Shows everything from the characters table
 SELECT * FROM characters;
 
+-- Shows all weapons which are of a specific type and ranks them by power
 SELECT * FROM weapons WHERE type = 'Melee' ORDER BY power DESC;
 
+-- Complex join query showing multiple different columns from multiple different tables, with a subclause for two columns referring to the same foreign key, ordered by character name alphabetically
 SELECT
     c.name AS "Character Name",
     c.level AS "Character Level",
@@ -178,6 +188,7 @@ WHERE
 ORDER BY 
     c.name;
 
+-- Uses some basic math functions based on values across three different tables to calculate damage output, orders by highest physical attack damage
 SELECT 
     c.name AS "Character Name",
     ROUND(b.atk + w.power) AS "Physical Attack Damage"
@@ -192,6 +203,7 @@ WHERE
 ORDER BY
     ROUND(b.atk + w.power) DESC;
 
+-- Uses similar damage calculations as above but for attack spells, shows highest output possible for each character with offensive magic spells
 SELECT
     c.name AS "Character Name",
     sp.name AS "Spell Name",
@@ -210,22 +222,27 @@ WHERE
 ORDER BY 
     ROUND((sp.damage_factor * b.mag) *(b.mp / sp.mp_cost)) DESC;
 
+-- Aggregate function count used to show number of each weapon type, uses group by to organise by type, ordered by count descending
 SELECT COUNT(weapon_id) AS "Number of Weapons", type AS "With Type:" 
 FROM weapons
 GROUP BY type
 ORDER BY COUNT(weapon_id) DESC;
 
+-- A small query for characters who are older than or at a specific amount (150)
 SELECT name AS "Possibly Immortal Characters", age AS "Characters Current Age (If Known)", race AS "Character Race"
 FROM characters
 WHERE age >=150 OR age IS NULL
 ORDER BY age DESC;
 
+-- Insert multiple values into the spells table
 INSERT INTO spells (name, element, effect, mp_cost, range, area_of_effect, damage_factor, healing_factor) VALUES 
 ('Drain', 'Dark', 'Sucks the life blood from your foe, healing for half damage dealt', 6, 10, 5, 1.20, 0.60),
 ('Blazing Inferno', 'Fire', 'The highest level fire spell, brings a falling star upon your foe', 50, 50, 5, 8.00, NULL);
 
+-- Query to select and fire spells (or similar) which have a damage factor over a specific value
 SELECT name, effect, mp_cost FROM spells WHERE element LIKE 'F%' AND damage_factor > 2;
 
+-- Count aggregate used to find any elements with multiple spells either equipped or not equipped
 SELECT 
     element AS "Elements with Multiple Spells",
     COUNT(element) AS "Number of Spells in Element"
